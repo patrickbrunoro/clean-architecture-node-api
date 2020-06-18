@@ -30,6 +30,7 @@ const makeAddAccount = (): AddAccount => {
   }
   return new AddAccountStub()
 }
+
 const makeSut = (): SutTypes => {
   const emailValidatorStub = makeEmailValidator()
   const addAccountStub = makeAddAccount()
