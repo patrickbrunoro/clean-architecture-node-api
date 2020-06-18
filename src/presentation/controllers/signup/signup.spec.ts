@@ -25,7 +25,6 @@ const makeAddAccount = (): AddAccount => {
         email: 'valid_email@email.com',
         password: 'valid_password'
       }
-      // return await new Promise(resolve => resolve(fakeAccount))
       return await Promise.resolve(fakeAccount)
     }
   }
