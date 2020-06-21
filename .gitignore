@@ -4,4 +4,4 @@ dist
 .vscode
 coverage
 !src/data
-data
+/data
