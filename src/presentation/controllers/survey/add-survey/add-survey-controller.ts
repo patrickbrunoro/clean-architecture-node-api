@@ -20,8 +20,8 @@ export class AddSurveyController implements Controller {
         answers
       })
       return noContent()
-    } catch (e) {
-      return serverError(e)
+    } catch (error) {
+      return serverError(error)
     }
   }
 }
