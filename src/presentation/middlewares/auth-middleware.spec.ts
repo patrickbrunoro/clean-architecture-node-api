@@ -13,7 +13,7 @@ const makeFakeAccount = (): AccountModel => ({
 
 const makeLoadAccountByTokenStub = (): LoadAccountByToken => {
   class LoadAccountByTokenStub implements LoadAccountByToken {
-    async add (token: string, role?: string): Promise<AccountModel> {
+    async load (token: string, role?: string): Promise<AccountModel> {
       return await Promise.resolve(makeFakeAccount())
     }
   }
@@ -42,7 +42,7 @@ describe('Auth Middleware', () => {
 
   test('Should call LoadAccountByToken with correct accessToken', async () => {
     const { sut, loadAccountByTokenStub } = makeSut()
-    const loadSpy = jest.spyOn(loadAccountByTokenStub, 'add')
+    const loadSpy = jest.spyOn(loadAccountByTokenStub, 'load')
     await sut.handle({
       headers: {
         'x-access-token': 'any_token'
