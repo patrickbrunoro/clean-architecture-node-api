@@ -17,7 +17,7 @@ export class LoginController implements Controller {
 
       const accessToken = await this.authentication.auth(
         {
-          email,
+          email: email.trim().toLowerCase(),
           password
         })
       if (!accessToken) {
