@@ -1,6 +1,6 @@
 import { Controller, HttpRequest, HttpResponse } from './load-survey-controller-protocols'
-import { LoadSurveys } from '../../../../domain/usecases/load-surveys'
-import { noContent, ok, serverError } from '../../../helpers/http/http-helpers'
+import { LoadSurveys } from '@/domain/usecases/load-surveys'
+import { noContent, ok, serverError } from '@/presentation/helpers/http/http-helpers'
 
 export class LoadSurveysController implements Controller {
   constructor (private readonly loadSurveys: LoadSurveys) {

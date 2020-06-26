@@ -1,4 +1,4 @@
-  
+
 module.exports = {
   roots: ['<rootDir>/src'],
   collectCoverageFrom: [
@@ -12,5 +12,8 @@ module.exports = {
   preset: '@shelf/jest-mongodb',
   transform: {
     '.+\\.ts$': 'ts-jest'
+  },
+  moduleNameMapper: {
+    '@/(.*)': '<rootDir>/src/$1'
   }
 }
