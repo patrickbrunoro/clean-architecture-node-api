@@ -1,6 +1,6 @@
 import MockDate from 'mockdate'
 import { SaveSurveyResultModel, SaveSurveyResultRepository, SurveyResultModel } from './db-save-survey-result-protocols'
-import { DbSaveSurveyResult } from '@/data/usecases/save-survey-result/db-save-survey-result'
+import { DbSaveSurveyResult } from '@/data/usecases/survey-result/save-survey-result/db-save-survey-result'
 
 const makeFakeSurveyResultData = (): SaveSurveyResultModel => ({
   surveyId: 'any_survey_id',
