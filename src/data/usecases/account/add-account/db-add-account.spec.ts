@@ -1,24 +1,14 @@
 import { DbAddAccount } from './db-add-account'
 import {
   AccountModel,
-  AddAccountParams,
   Hasher,
   AddAccountRepository,
   LoadAccountByEmailRepository
 } from './db-add-account-protocols'
 import { mockAccountModel, mockAddAccountParams, throwError } from '@/domain/test'
-import { mockHasher } from '@/data/test'
+import { mockAddAccountRepository, mockHasher } from '@/data/test'
 
-const makeAddAccountRepository = (): AddAccountRepository => {
-  class AddAccountRepositoryStub implements AddAccountRepository {
-    async add (accountData: AddAccountParams): Promise<AccountModel> {
-      return await Promise.resolve(mockAccountModel())
-    }
-  }
-  return new AddAccountRepositoryStub()
-}
-
-const makeloadAccountByEmailRepositoryStub = (): LoadAccountByEmailRepository => {
+const mockLoadAccountByEmailRepository = (): LoadAccountByEmailRepository => {
   class LoadAccountByEmailRepositoryStub implements LoadAccountByEmailRepository {
     async loadByEmail (email: string): Promise<AccountModel> {
       return await Promise.resolve(null)
@@ -35,8 +25,8 @@ type SutTypes = {
 }
 const makeSut = (): SutTypes => {
   const hasherStub = mockHasher()
-  const loadAccountByEmailRepositoryStub = makeloadAccountByEmailRepositoryStub()
-  const addAccountRepositoryStub = makeAddAccountRepository()
+  const loadAccountByEmailRepositoryStub = mockLoadAccountByEmailRepository()
+  const addAccountRepositoryStub = mockAddAccountRepository()
   const sut = new DbAddAccount(hasherStub, addAccountRepositoryStub, loadAccountByEmailRepositoryStub)
   return {
     loadAccountByEmailRepositoryStub,
