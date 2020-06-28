@@ -3,7 +3,7 @@ import { HttpRequest, LoadSurveyById, SurveyModel, SaveSurveyResult, SaveSurveyR
 import { forbidden, ok, serverError } from '@/presentation/helpers/http/http-helpers'
 import { InvalidParamError } from '@/presentation/errors'
 import MockDate from 'mockdate'
-import { throwError } from '@/domain/test'
+import { mockSurveyModel, throwError } from '@/domain/test'
 
 const makeFakeRequest = (): HttpRequest => ({
   params: {
@@ -23,19 +23,10 @@ const makeFakeResultSurvey = (): SurveyResultModel => ({
   date: new Date()
 })
 
-const makeFakeSurvey = (): SurveyModel => ({
-  id: 'any_id',
-  question: 'any_question',
-  answers: [{
-    image: 'any_image',
-    answer: 'any_answer'
-  }],
-  date: new Date()
-})
 const makeLoadSurveyById = (): LoadSurveyById => {
   class LoadSurveyByIdStub implements LoadSurveyById {
     async loadById (id: string): Promise<SurveyModel> {
-      return await Promise.resolve(makeFakeSurvey())
+      return await Promise.resolve(mockSurveyModel())
     }
   }
   return new LoadSurveyByIdStub()
