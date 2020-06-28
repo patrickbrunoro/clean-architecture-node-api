@@ -1,6 +1,6 @@
 import { loginPath, signUpPath, surveyPath } from '@/main/docs/paths'
 import {
-  accountSchema, apiKeyAuthSchema,
+  accountSchema, addSurveyParamsSchema, apiKeyAuthSchema,
   errorSchema,
   loginParamsSchema, signUpParamsSchema,
   surveyAnswerSchema,
@@ -36,6 +36,7 @@ export default {
     surveyAnswer: surveyAnswerSchema,
     loginParams: loginParamsSchema,
     signUpParams: signUpParamsSchema,
+    addSurveyParams: addSurveyParamsSchema,
     error: errorSchema
   },
   components: {
