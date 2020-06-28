@@ -9,6 +9,7 @@ import {
   Validation
 } from './signup-controller-protocols'
 import { ok, serverError, badRequest, forbidden } from '../../../helpers/http/http-helpers'
+import { mockAccountModel, throwError } from '@/domain/test'
 
 const makeAuthenticationStub = (): Authentication => {
   class AuthenticationStub implements Authentication {
@@ -22,7 +23,7 @@ const makeAuthenticationStub = (): Authentication => {
 const makeAddAccount = (): AddAccount => {
   class AddAccountStub implements AddAccount {
     async add (account: AddAccountParams): Promise<AccountModel> {
-      const fakeAccount = makeFakeAccount()
+      const fakeAccount = mockAccountModel()
       return await Promise.resolve(fakeAccount)
     }
   }
@@ -37,12 +38,6 @@ const makeValidation = (): Validation => {
   }
   return new ValidationStub()
 }
-const makeFakeAccount = (): AccountModel => ({
-  id: 'valid_id',
-  name: 'valid_name',
-  email: 'valid_email@email.com',
-  password: 'valid_password'
-})
 
 const makeFakeRequest = (): HttpRequest => ({
   body: {
@@ -130,7 +125,7 @@ describe('SignUp Ccntroller', () => {
 
   test('Should returns 500 if Authentication throws', async () => {
     const { sut, authenticationStub } = makeSut()
-    jest.spyOn(authenticationStub, 'auth').mockReturnValueOnce(Promise.reject(new Error()))
+    jest.spyOn(authenticationStub, 'auth').mockReturnValueOnce(throwError())
     const httpResponse = await sut.handle(makeFakeRequest())
     expect(httpResponse).toEqual(serverError(new Error()))
   })

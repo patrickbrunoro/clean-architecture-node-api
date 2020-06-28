@@ -1,14 +1,9 @@
 import { MongoHelper } from '../helpers/mongo-helper'
 import { AccountMongoRepository } from './account-mongo-repository'
 import { Collection } from 'mongodb'
-import { AddAccountParams } from '@/domain/usecases/account/add-account'
+import { mockAccountModel } from '@/domain/test'
 
 let accountCollection: Collection
-const makeFakeAccount = (): AddAccountParams => ({
-  name: 'any_name',
-  email: 'any_email@mail.com',
-  password: 'any_password'
-})
 describe('Account Mongo Repository', () => {
   beforeAll(async () => {
     await MongoHelper.connect(process.env.MONGO_URL)
@@ -30,7 +25,7 @@ describe('Account Mongo Repository', () => {
   describe('add()', () => {
     test('Should returns an account on add success', async () => {
       const sut = makeSut()
-      const account = await sut.add(makeFakeAccount())
+      const account = await sut.add(mockAccountModel())
       expect(account).toBeTruthy()
       expect(account.id).toBeTruthy()
       expect(account.name).toBe('any_name')
@@ -41,7 +36,7 @@ describe('Account Mongo Repository', () => {
 
   describe('loadByEmail()', () => {
     test('Should returns an account on add loadBySuccess success', async () => {
-      await accountCollection.insertOne(makeFakeAccount())
+      await accountCollection.insertOne(mockAccountModel())
       const sut = makeSut()
       const account = await sut.loadByEmail('any_email@mail.com')
       expect(account).toBeTruthy()
@@ -60,7 +55,7 @@ describe('Account Mongo Repository', () => {
 
   describe('updateAccessToken()', () => {
     test('Should update the account accessToken on updateAccessToken success', async () => {
-      const res = await accountCollection.insertOne(makeFakeAccount())
+      const res = await accountCollection.insertOne(mockAccountModel())
       const sut = makeSut()
       const fakeAccount = res.ops[0]
       expect(fakeAccount.accessToken).toBeFalsy()
