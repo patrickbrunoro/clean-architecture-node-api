@@ -1,7 +1,7 @@
 import { MongoHelper } from '../helpers/mongo-helper'
 import { AccountMongoRepository } from './account-mongo-repository'
 import { Collection } from 'mongodb'
-import { mockAccountModel } from '@/domain/test'
+import { mockAccountModel, mockAddAccountParamsWithToken, mockAddAccountParamsWithTokenAndRole } from '@/domain/test'
 
 let accountCollection: Collection
 describe('Account Mongo Repository', () => {
@@ -68,12 +68,7 @@ describe('Account Mongo Repository', () => {
 
   describe('loadByToken()', () => {
     test('Should returns an account on add loadByToken success without role', async () => {
-      await accountCollection.insertOne({
-        name: 'any_name',
-        email: 'any_email@mail.com',
-        password: 'any_password',
-        accessToken: 'any_token'
-      })
+      await accountCollection.insertOne(mockAddAccountParamsWithToken())
       const sut = makeSut()
       const account = await sut.loadByToken('any_token')
       expect(account).toBeTruthy()
@@ -84,13 +79,7 @@ describe('Account Mongo Repository', () => {
     })
 
     test('Should returns an account on add loadByToken success with role', async () => {
-      await accountCollection.insertOne({
-        name: 'any_name',
-        email: 'any_email@mail.com',
-        password: 'any_password',
-        accessToken: 'any_token',
-        role: 'any_role'
-      })
+      await accountCollection.insertOne(mockAddAccountParamsWithTokenAndRole())
       const sut = makeSut()
       const account = await sut.loadByToken('any_token', 'any_role')
       expect(account).toBeTruthy()
@@ -101,12 +90,7 @@ describe('Account Mongo Repository', () => {
     })
 
     test('Should returns null on loadByToken with invalid role', async () => {
-      await accountCollection.insertOne({
-        name: 'any_name',
-        email: 'any_email@mail.com',
-        password: 'any_password',
-        accessToken: 'any_token'
-      })
+      await accountCollection.insertOne(mockAddAccountParamsWithToken())
       const sut = makeSut()
       const account = await sut.loadByToken('any_token', 'admin')
       expect(account).toBeFalsy()

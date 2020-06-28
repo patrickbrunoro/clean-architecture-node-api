@@ -3,6 +3,7 @@ import { SurveyResultMongoRepository } from '@/infra/db/mongodb/survey-result/su
 import { SurveyModel } from '@/domain/models/survey'
 import { AccountModel } from '@/domain/models/account'
 import { Collection } from 'mongodb'
+import { mockAddAccountParams } from '@/domain/test'
 
 let surveyCollection: Collection
 let surveyResultCollection: Collection
@@ -26,11 +27,7 @@ const makeSurvey = async (): Promise<SurveyModel> => {
   return res.ops[0]
 }
 const makeAccount = async (): Promise<AccountModel> => {
-  const res = await accountCollection.insertOne({
-    name: 'any_name',
-    email: 'any_email',
-    password: 'any_password'
-  })
+  const res = await accountCollection.insertOne(mockAddAccountParams())
   return res.ops[0]
 }
 describe('Survey Result Mongo Repository', () => {
