@@ -8,11 +8,11 @@ import {
 } from './signup-controller-protocols'
 import { ok, serverError, badRequest, forbidden } from '../../../helpers/http/http-helpers'
 import { mockAuthentication, mockValidation, mockAccount } from '@/presentation/test'
-import { throwError } from '@/domain/test'
+import { mockAuthenticationModel, throwError } from '@/domain/test'
 
 const makeFakeRequest = (): HttpRequest => ({
   body: {
-    name: 'name',
+    name: 'any_name',
     email: 'any_email@mail.com',
     password: 'password',
     passwordConfirmation: 'password'
@@ -44,7 +44,7 @@ describe('SignUp Ccntroller', () => {
     const addSpy = jest.spyOn(addAccountStub, 'add')
     await sut.handle(makeFakeRequest())
     expect(addSpy).toHaveBeenCalledWith({
-      name: 'name',
+      name: 'any_name',
       email: 'any_email@mail.com',
       password: 'password'
     })
@@ -65,10 +65,10 @@ describe('SignUp Ccntroller', () => {
     expect(httpResponse).toEqual(forbidden(new EmailInUseError()))
   })
 
-  test('Should return an accessToken on success', async () => {
+  test('Should return an authenticationModel on success', async () => {
     const { sut } = makeSut()
     const httpResponse = await sut.handle(makeFakeRequest())
-    expect(httpResponse).toEqual(ok({ accessToken: 'any_token' }))
+    expect(httpResponse).toEqual(ok(mockAuthenticationModel()))
   })
 
   test('Should call Validation returns an error correct values', async () => {
